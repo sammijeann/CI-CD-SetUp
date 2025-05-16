@@ -1,4 +1,4 @@
-name: Testing Workflow
+gitname: Testing Workflow
 
 # TRIGGERS an ACTION to happen/run
 on:
