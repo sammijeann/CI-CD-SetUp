@@ -1,0 +1,34 @@
+name: Testing Workflow
+
+# TRIGGERS an ACTION to happen/run
+on:
+  pull_request:
+    branches: [ "develop" ]
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - name: Checkout THe Application Code
+      uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - name: Installing Dependancies
+      run: npm ci
+    - name: Setup Cypress Testing
+      uses: cypress-io/github-action@v6
+      with: 
+        build: npm run build
+        start: npm run start
+        component: true
